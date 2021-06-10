@@ -5033,8 +5033,7 @@
 		name = <<"query">>,
 		xmlns = <<"jabber:iq:multi:last">>,
 		module = multi_last_query,
-		result = {multi_last_query, '$items','$ver'},
-		attrs = [#attr{name = <<"ver">>, default = undefined}],
+		result = {multi_last_query, '$items'},
 		refs = [#ref{name = multi_last_item, label = '$items'}]
 	}).
 

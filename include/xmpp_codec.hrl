@@ -1094,8 +1094,7 @@
                           seconds = none :: 'none' | non_neg_integer()}).
 -type multi_last_item() :: #multi_last_item{}.
 
--record(multi_last_query, {items = [] :: [#multi_last_item{}],
-                           ver :: 'undefined' | binary()}).
+-record(multi_last_query, {items = [] :: [#multi_last_item{}]}).
 -type multi_last_query() :: #multi_last_query{}.
 
 -record(offline_item, {node = <<>> :: binary(),

@@ -1764,6 +1764,7 @@ get_mod({vcard_email, _, _, _, _, _, _}) -> xep0054;
 get_mod({ps_affiliation, _, _, _, _}) -> xep0060;
 get_mod({upload_retry, _}) -> xep0363;
 get_mod({x509_register}) -> xep0417;
+get_mod({multi_last_query, _}) -> multi_last_query;
 get_mod({rsm_set, _, _, _, _, _, _, _}) -> xep0059;
 get_mod({avatar_meta, _, _}) -> xep0084;
 get_mod({unblock, _}) -> xep0191;
@@ -1794,7 +1795,6 @@ get_mod({avatar_pointer, _, _, _, _, _, _}) -> xep0084;
 get_mod({muc_invite, _, _, _, _}) -> xep0045;
 get_mod({jingle_reason, _, _, _}) -> xep0166;
 get_mod({ps_event, _, _, _, _, _, _}) -> xep0060;
-get_mod({multi_last_query, _, _}) -> multi_last_query;
 get_mod({sasl_mechanisms, _}) -> rfc6120;
 get_mod({starttls, _}) -> rfc6120;
 get_mod({stream_start, _, _, _, _, _, _, _, _}) ->

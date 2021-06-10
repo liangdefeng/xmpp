@@ -1188,7 +1188,7 @@ get_mod(<<"leave">>, <<"urn:xmpp:mix:core:0">>) ->
     xep0369;
 get_mod(<<"last">>, <<"jabber:iq:search">>) -> xep0055;
 get_mod(<<"item">>, <<"jabber:iq:multi:last">>) ->
-    multi_last_item;
+    multi_last;
 get_mod(<<"query">>, <<"jabber:iq:last">>) -> xep0012;
 get_mod(<<"show">>, <<"jabber:server">>) -> rfc6120;
 get_mod(<<"configure">>,
@@ -1217,7 +1217,7 @@ get_mod(<<"proxy-error">>,
 	<<"urn:xmpp:jingle:transports:s5b:1">>) ->
     xep0260;
 get_mod(<<"query">>, <<"jabber:iq:multi:last">>) ->
-    multi_last_query;
+    multi_last;
 get_mod(<<"stat">>,
 	<<"http://jabber.org/protocol/stats">>) ->
     xep0039;
@@ -1750,7 +1750,7 @@ get_mod({offline_item, _, _}) -> xep0013;
 get_mod({db_verify, _, _, _, _, _, _}) -> xep0220;
 get_mod({upload_slot, _, _, _}) -> xep0363;
 get_mod({jingle_ibb_transport, _, _, _}) -> xep0261;
-get_mod({multi_last_item, _, _}) -> multi_last_item;
+get_mod({multi_last_item, _, _}) -> multi_last;
 get_mod({muc_decline, _, _, _}) -> xep0045;
 get_mod({sm_enable, _, _, _}) -> xep0198;
 get_mod({offline, _, _, _}) -> xep0013;
@@ -1764,7 +1764,7 @@ get_mod({vcard_email, _, _, _, _, _, _}) -> xep0054;
 get_mod({ps_affiliation, _, _, _, _}) -> xep0060;
 get_mod({upload_retry, _}) -> xep0363;
 get_mod({x509_register}) -> xep0417;
-get_mod({multi_last_query, _}) -> multi_last_query;
+get_mod({multi_last_query, _}) -> multi_last;
 get_mod({rsm_set, _, _, _, _, _, _, _}) -> xep0059;
 get_mod({avatar_meta, _, _}) -> xep0084;
 get_mod({unblock, _}) -> xep0191;

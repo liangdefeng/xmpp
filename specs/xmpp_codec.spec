@@ -5016,7 +5016,7 @@
 	#elem{
 	    name = <<"item">>,
 		xmlns = <<"jabber:iq:multi:last">>,
-		module = multi_last_item,
+		module = multi_last,
 		result = {multi_last_item, '$jid', '$seconds'},
         attrs = [#attr{name = <<"jid">>,
 					required = true,
@@ -5032,7 +5032,7 @@
 	#elem{
 		name = <<"query">>,
 		xmlns = <<"jabber:iq:multi:last">>,
-		module = multi_last_query,
+		module = multi_last,
 		result = {multi_last_query, '$items'},
 		refs = [#ref{name = multi_last_item, label = '$items'}]
 	}).

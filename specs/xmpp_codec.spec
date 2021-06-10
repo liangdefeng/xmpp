@@ -5012,6 +5012,32 @@
 	   module = 'xep0417',
 	   result = {x509_register}}).
 
+-xml(multi_last_item,
+	#elem{
+		name = <<"item">>,
+		xmlns = <<"jabber:iq:multi:last">>,
+		module = multi_last_item,
+		result = {last_item, '$jid', '$seconds','$error', '$data'},
+        attrs = [#attr{name = <<"jid">>,
+					required = true,
+                    dec = {jid, decode, []},
+                    enc = {jid, encode, []}},
+				#attr{name = <<"seconds">>,
+					dec = {dec_int, [0, infinity]},
+                    enc = {enc_int, []}}],
+		cdata = #cdata{label = '$data'},
+		refs = [#ref{name = error, label = '$error'}]
+	}).
+
+-xml(multi_last_query,
+	#elem{
+		name = <<"query">>,
+		xmlns = <<"jabber:iq:multi:last">>,
+		module = multi_last_query,
+		result = {multi_last_query, '$items'},
+		refs = [#ref{name = multi_last_item, label = '$items'}]
+	}).
+
 -spec dec_tzo(_) -> {integer(), integer()}.
 dec_tzo(Val) ->
     [H1, M1] = binary:split(Val, <<":">>),

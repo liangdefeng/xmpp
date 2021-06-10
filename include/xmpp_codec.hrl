@@ -1090,6 +1090,14 @@
 -record(sasl_mechanisms, {list = [] :: [binary()]}).
 -type sasl_mechanisms() :: #sasl_mechanisms{}.
 
+-record(multi_last_item, {jid :: jid:jid(),
+                          seconds = none :: 'none' | non_neg_integer()}).
+-type multi_last_item() :: #multi_last_item{}.
+
+-record(multi_last_query, {items = [] :: [#multi_last_item{}],
+                           ver :: 'undefined' | binary()}).
+-type multi_last_query() :: #multi_last_query{}.
+
 -record(offline_item, {node = <<>> :: binary(),
                        action :: 'remove' | 'undefined' | 'view'}).
 -type offline_item() :: #offline_item{}.
@@ -1173,15 +1181,6 @@
                        text = [] :: [#text{}],
                        sub_els = [] :: [xmpp_element() | fxml:xmlel()]}).
 -type stanza_error() :: #stanza_error{}.
-
--record(multi_last_item, {jid :: jid:jid(),
-                          seconds :: 'undefined' | non_neg_integer(),
-                          error = [] :: [#stanza_error{}],
-                          data = <<>> :: binary()}).
--type multi_last_item() :: #multi_last_item{}.
-
--record(multi_last_query, {items = [] :: [#multi_last_item{}]}).
--type multi_last_query() :: #multi_last_query{}.
 
 -record(stream_error, {reason :: atom() | #'see-other-host'{},
                        text = [] :: [#text{}]}).

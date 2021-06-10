@@ -6,25 +6,21 @@
 -compile(export_all).
 
 do_decode(<<"acknowledged">>,
-          <<"urn:xmpp:chat-markers:0">>, El, Opts) ->
+	  <<"urn:xmpp:chat-markers:0">>, El, Opts) ->
     decode_mark_acknowledged(<<"urn:xmpp:chat-markers:0">>,
-                             Opts,
-                             El);
+			     Opts, El);
 do_decode(<<"displayed">>,
-          <<"urn:xmpp:chat-markers:0">>, El, Opts) ->
+	  <<"urn:xmpp:chat-markers:0">>, El, Opts) ->
     decode_mark_displayed(<<"urn:xmpp:chat-markers:0">>,
-                          Opts,
-                          El);
+			  Opts, El);
 do_decode(<<"received">>, <<"urn:xmpp:chat-markers:0">>,
-          El, Opts) ->
+	  El, Opts) ->
     decode_mark_received(<<"urn:xmpp:chat-markers:0">>,
-                         Opts,
-                         El);
+			 Opts, El);
 do_decode(<<"markable">>, <<"urn:xmpp:chat-markers:0">>,
-          El, Opts) ->
+	  El, Opts) ->
     decode_mark_markable(<<"urn:xmpp:chat-markers:0">>,
-                         Opts,
-                         El);
+			 Opts, El);
 do_decode(Name, <<>>, _, _) ->
     erlang:error({xmpp_codec, {missing_tag_xmlns, Name}});
 do_decode(Name, XMLNS, _, _) ->
@@ -41,7 +37,7 @@ do_encode({mark_received, _} = Received, TopXMLNS) ->
 do_encode({mark_displayed, _} = Displayed, TopXMLNS) ->
     encode_mark_displayed(Displayed, TopXMLNS);
 do_encode({mark_acknowledged, _} = Acknowledged,
-          TopXMLNS) ->
+	  TopXMLNS) ->
     encode_mark_acknowledged(Acknowledged, TopXMLNS).
 
 do_get_name({mark_acknowledged, _}) ->
@@ -62,47 +58,41 @@ pp(mark_acknowledged, 1) -> [id];
 pp(_, _) -> no.
 
 records() ->
-    [{mark_received, 1},
-     {mark_displayed, 1},
+    [{mark_received, 1}, {mark_displayed, 1},
      {mark_acknowledged, 1}].
 
 decode_mark_acknowledged(__TopXMLNS, __Opts,
-                         {xmlel, <<"acknowledged">>, _attrs, _els}) ->
-    Id = decode_mark_acknowledged_attrs(__TopXMLNS,
-                                        _attrs,
-                                        undefined),
+			 {xmlel, <<"acknowledged">>, _attrs, _els}) ->
+    Id = decode_mark_acknowledged_attrs(__TopXMLNS, _attrs,
+					undefined),
     {mark_acknowledged, Id}.
 
 decode_mark_acknowledged_attrs(__TopXMLNS,
-                               [{<<"id">>, _val} | _attrs], _Id) ->
-    decode_mark_acknowledged_attrs(__TopXMLNS,
-                                   _attrs,
-                                   _val);
+			       [{<<"id">>, _val} | _attrs], _Id) ->
+    decode_mark_acknowledged_attrs(__TopXMLNS, _attrs,
+				   _val);
 decode_mark_acknowledged_attrs(__TopXMLNS, [_ | _attrs],
-                               Id) ->
+			       Id) ->
     decode_mark_acknowledged_attrs(__TopXMLNS, _attrs, Id);
 decode_mark_acknowledged_attrs(__TopXMLNS, [], Id) ->
     decode_mark_acknowledged_attr_id(__TopXMLNS, Id).
 
 encode_mark_acknowledged({mark_acknowledged, Id},
-                         __TopXMLNS) ->
+			 __TopXMLNS) ->
     __NewTopXMLNS =
-        xmpp_codec:choose_top_xmlns(<<"urn:xmpp:chat-markers:0">>,
-                                    [],
-                                    __TopXMLNS),
+	xmpp_codec:choose_top_xmlns(<<"urn:xmpp:chat-markers:0">>,
+				    [], __TopXMLNS),
     _els = [],
     _attrs = encode_mark_acknowledged_attr_id(Id,
-                                              xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-                                                                         __TopXMLNS)),
+					      xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
+									 __TopXMLNS)),
     {xmlel, <<"acknowledged">>, _attrs, _els}.
 
 decode_mark_acknowledged_attr_id(__TopXMLNS,
-                                 undefined) ->
+				 undefined) ->
     erlang:error({xmpp_codec,
-                  {missing_attr,
-                   <<"id">>,
-                   <<"acknowledged">>,
-                   __TopXMLNS}});
+		  {missing_attr, <<"id">>, <<"acknowledged">>,
+		   __TopXMLNS}});
 decode_mark_acknowledged_attr_id(__TopXMLNS, _val) ->
     _val.
 
@@ -110,86 +100,81 @@ encode_mark_acknowledged_attr_id(_val, _acc) ->
     [{<<"id">>, _val} | _acc].
 
 decode_mark_displayed(__TopXMLNS, __Opts,
-                      {xmlel, <<"displayed">>, _attrs, _els}) ->
-    Id = decode_mark_displayed_attrs(__TopXMLNS,
-                                     _attrs,
-                                     undefined),
+		      {xmlel, <<"displayed">>, _attrs, _els}) ->
+    Id = decode_mark_displayed_attrs(__TopXMLNS, _attrs,
+				     undefined),
     {mark_displayed, Id}.
 
 decode_mark_displayed_attrs(__TopXMLNS,
-                            [{<<"id">>, _val} | _attrs], _Id) ->
+			    [{<<"id">>, _val} | _attrs], _Id) ->
     decode_mark_displayed_attrs(__TopXMLNS, _attrs, _val);
 decode_mark_displayed_attrs(__TopXMLNS, [_ | _attrs],
-                            Id) ->
+			    Id) ->
     decode_mark_displayed_attrs(__TopXMLNS, _attrs, Id);
 decode_mark_displayed_attrs(__TopXMLNS, [], Id) ->
     decode_mark_displayed_attr_id(__TopXMLNS, Id).
 
 encode_mark_displayed({mark_displayed, Id},
-                      __TopXMLNS) ->
+		      __TopXMLNS) ->
     __NewTopXMLNS =
-        xmpp_codec:choose_top_xmlns(<<"urn:xmpp:chat-markers:0">>,
-                                    [],
-                                    __TopXMLNS),
+	xmpp_codec:choose_top_xmlns(<<"urn:xmpp:chat-markers:0">>,
+				    [], __TopXMLNS),
     _els = [],
     _attrs = encode_mark_displayed_attr_id(Id,
-                                           xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-                                                                      __TopXMLNS)),
+					   xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
+								      __TopXMLNS)),
     {xmlel, <<"displayed">>, _attrs, _els}.
 
 decode_mark_displayed_attr_id(__TopXMLNS, undefined) ->
     erlang:error({xmpp_codec,
-                  {missing_attr, <<"id">>, <<"displayed">>, __TopXMLNS}});
+		  {missing_attr, <<"id">>, <<"displayed">>, __TopXMLNS}});
 decode_mark_displayed_attr_id(__TopXMLNS, _val) -> _val.
 
 encode_mark_displayed_attr_id(_val, _acc) ->
     [{<<"id">>, _val} | _acc].
 
 decode_mark_received(__TopXMLNS, __Opts,
-                     {xmlel, <<"received">>, _attrs, _els}) ->
-    Id = decode_mark_received_attrs(__TopXMLNS,
-                                    _attrs,
-                                    undefined),
+		     {xmlel, <<"received">>, _attrs, _els}) ->
+    Id = decode_mark_received_attrs(__TopXMLNS, _attrs,
+				    undefined),
     {mark_received, Id}.
 
 decode_mark_received_attrs(__TopXMLNS,
-                           [{<<"id">>, _val} | _attrs], _Id) ->
+			   [{<<"id">>, _val} | _attrs], _Id) ->
     decode_mark_received_attrs(__TopXMLNS, _attrs, _val);
 decode_mark_received_attrs(__TopXMLNS, [_ | _attrs],
-                           Id) ->
+			   Id) ->
     decode_mark_received_attrs(__TopXMLNS, _attrs, Id);
 decode_mark_received_attrs(__TopXMLNS, [], Id) ->
     decode_mark_received_attr_id(__TopXMLNS, Id).
 
 encode_mark_received({mark_received, Id}, __TopXMLNS) ->
     __NewTopXMLNS =
-        xmpp_codec:choose_top_xmlns(<<"urn:xmpp:chat-markers:0">>,
-                                    [],
-                                    __TopXMLNS),
+	xmpp_codec:choose_top_xmlns(<<"urn:xmpp:chat-markers:0">>,
+				    [], __TopXMLNS),
     _els = [],
     _attrs = encode_mark_received_attr_id(Id,
-                                          xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-                                                                     __TopXMLNS)),
+					  xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
+								     __TopXMLNS)),
     {xmlel, <<"received">>, _attrs, _els}.
 
 decode_mark_received_attr_id(__TopXMLNS, undefined) ->
     erlang:error({xmpp_codec,
-                  {missing_attr, <<"id">>, <<"received">>, __TopXMLNS}});
+		  {missing_attr, <<"id">>, <<"received">>, __TopXMLNS}});
 decode_mark_received_attr_id(__TopXMLNS, _val) -> _val.
 
 encode_mark_received_attr_id(_val, _acc) ->
     [{<<"id">>, _val} | _acc].
 
 decode_mark_markable(__TopXMLNS, __Opts,
-                     {xmlel, <<"markable">>, _attrs, _els}) ->
+		     {xmlel, <<"markable">>, _attrs, _els}) ->
     true.
 
 encode_mark_markable(true, __TopXMLNS) ->
     __NewTopXMLNS =
-        xmpp_codec:choose_top_xmlns(<<"urn:xmpp:chat-markers:0">>,
-                                    [],
-                                    __TopXMLNS),
+	xmpp_codec:choose_top_xmlns(<<"urn:xmpp:chat-markers:0">>,
+				    [], __TopXMLNS),
     _els = [],
     _attrs = xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-                                        __TopXMLNS),
+					__TopXMLNS),
     {xmlel, <<"markable">>, _attrs, _els}.

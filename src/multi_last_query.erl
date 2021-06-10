@@ -16,24 +16,26 @@ do_decode(Name, XMLNS, _, _) ->
 
 tags() -> [{<<"query">>, <<"jabber:iq:multi:last">>}].
 
-do_encode({multi_last_query, _} = Query, TopXMLNS) ->
+do_encode({multi_last_query, _, _} = Query, TopXMLNS) ->
     encode_multi_last_query(Query, TopXMLNS).
 
-do_get_name({multi_last_query, _}) -> <<"query">>.
+do_get_name({multi_last_query, _, _}) -> <<"query">>.
 
-do_get_ns({multi_last_query, _}) ->
+do_get_ns({multi_last_query, _, _}) ->
     <<"jabber:iq:multi:last">>.
 
-pp(multi_last_query, 1) -> [items];
+pp(multi_last_query, 2) -> [items, ver];
 pp(_, _) -> no.
 
-records() -> [{multi_last_query, 1}].
+records() -> [{multi_last_query, 2}].
 
 decode_multi_last_query(__TopXMLNS, __Opts,
 			{xmlel, <<"query">>, _attrs, _els}) ->
     Items = decode_multi_last_query_els(__TopXMLNS, __Opts,
 					_els, []),
-    {multi_last_query, Items}.
+    Ver = decode_multi_last_query_attrs(__TopXMLNS, _attrs,
+					undefined),
+    {multi_last_query, Items, Ver}.
 
 decode_multi_last_query_els(__TopXMLNS, __Opts, [],
 			    Items) ->
@@ -59,7 +61,16 @@ decode_multi_last_query_els(__TopXMLNS, __Opts,
     decode_multi_last_query_els(__TopXMLNS, __Opts, _els,
 				Items).
 
-encode_multi_last_query({multi_last_query, Items},
+decode_multi_last_query_attrs(__TopXMLNS,
+			      [{<<"ver">>, _val} | _attrs], _Ver) ->
+    decode_multi_last_query_attrs(__TopXMLNS, _attrs, _val);
+decode_multi_last_query_attrs(__TopXMLNS, [_ | _attrs],
+			      Ver) ->
+    decode_multi_last_query_attrs(__TopXMLNS, _attrs, Ver);
+decode_multi_last_query_attrs(__TopXMLNS, [], Ver) ->
+    decode_multi_last_query_attr_ver(__TopXMLNS, Ver).
+
+encode_multi_last_query({multi_last_query, Items, Ver},
 			__TopXMLNS) ->
     __NewTopXMLNS =
 	xmpp_codec:choose_top_xmlns(<<"jabber:iq:multi:last">>,
@@ -67,8 +78,9 @@ encode_multi_last_query({multi_last_query, Items},
     _els =
 	lists:reverse('encode_multi_last_query_$items'(Items,
 						       __NewTopXMLNS, [])),
-    _attrs = xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-					__TopXMLNS),
+    _attrs = encode_multi_last_query_attr_ver(Ver,
+					      xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
+									 __TopXMLNS)),
     {xmlel, <<"query">>, _attrs, _els}.
 
 'encode_multi_last_query_$items'([], __TopXMLNS,
@@ -80,3 +92,14 @@ encode_multi_last_query({multi_last_query, Items},
 				     [multi_last_item:encode_multi_last_item(Items,
 									     __TopXMLNS)
 				      | _acc]).
+
+decode_multi_last_query_attr_ver(__TopXMLNS,
+				 undefined) ->
+    undefined;
+decode_multi_last_query_attr_ver(__TopXMLNS, _val) ->
+    _val.
+
+encode_multi_last_query_attr_ver(undefined, _acc) ->
+    _acc;
+encode_multi_last_query_attr_ver(_val, _acc) ->
+    [{<<"ver">>, _val} | _acc].

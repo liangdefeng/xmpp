@@ -5014,19 +5014,18 @@
 
 -xml(multi_last_item,
 	#elem{
-		name = <<"item">>,
+	    name = <<"item">>,
 		xmlns = <<"jabber:iq:multi:last">>,
 		module = multi_last_item,
-		result = {multi_last_item, '$jid', '$seconds','$error', '$data'},
+		result = {multi_last_item, '$jid', '$seconds'},
         attrs = [#attr{name = <<"jid">>,
 					required = true,
                     dec = {jid, decode, []},
                     enc = {jid, encode, []}},
 				#attr{name = <<"seconds">>,
+				    default = none,
 					dec = {dec_int, [0, infinity]},
-                    enc = {enc_int, []}}],
-		cdata = #cdata{label = '$data'},
-		refs = [#ref{name = error, label = '$error'}]
+                    enc = {enc_int, []}}]
 	}).
 
 -xml(multi_last_query,
@@ -5034,7 +5033,8 @@
 		name = <<"query">>,
 		xmlns = <<"jabber:iq:multi:last">>,
 		module = multi_last_query,
-		result = {multi_last_query, '$items'},
+		result = {multi_last_query, '$items','$ver'},
+		attrs = [#attr{name = <<"ver">>, default = undefined}],
 		refs = [#ref{name = multi_last_item, label = '$items'}]
 	}).
 

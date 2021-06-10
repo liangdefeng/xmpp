@@ -5017,7 +5017,7 @@
 		name = <<"item">>,
 		xmlns = <<"jabber:iq:multi:last">>,
 		module = multi_last_item,
-		result = {last_item, '$jid', '$seconds','$error', '$data'},
+		result = {multi_last_item, '$jid', '$seconds','$error', '$data'},
         attrs = [#attr{name = <<"jid">>,
 					required = true,
                     dec = {jid, decode, []},

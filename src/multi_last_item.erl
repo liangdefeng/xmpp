@@ -16,18 +16,20 @@ do_decode(Name, XMLNS, _, _) ->
 
 tags() -> [{<<"item">>, <<"jabber:iq:multi:last">>}].
 
-do_encode({last_item, _, _, _, _} = Item, TopXMLNS) ->
+do_encode({multi_last_item, _, _, _, _} = Item,
+	  TopXMLNS) ->
     encode_multi_last_item(Item, TopXMLNS).
 
-do_get_name({last_item, _, _, _, _}) -> <<"item">>.
+do_get_name({multi_last_item, _, _, _, _}) ->
+    <<"item">>.
 
-do_get_ns({last_item, _, _, _, _}) ->
+do_get_ns({multi_last_item, _, _, _, _}) ->
     <<"jabber:iq:multi:last">>.
 
-pp(last_item, 4) -> [jid, seconds, error, data];
+pp(multi_last_item, 4) -> [jid, seconds, error, data];
 pp(_, _) -> no.
 
-records() -> [{last_item, 4}].
+records() -> [{multi_last_item, 4}].
 
 dec_int(Val, Min, Max) ->
     case erlang:binary_to_integer(Val) of
@@ -44,7 +46,7 @@ decode_multi_last_item(__TopXMLNS, __Opts,
     {Jid, Seconds} =
 	decode_multi_last_item_attrs(__TopXMLNS, _attrs,
 				     undefined, undefined),
-    {last_item, Jid, Seconds, Error, Data}.
+    {multi_last_item, Jid, Seconds, Error, Data}.
 
 decode_multi_last_item_els(__TopXMLNS, __Opts, [], Data,
 			   Error) ->
@@ -105,8 +107,8 @@ decode_multi_last_item_attrs(__TopXMLNS, [], Jid,
      decode_multi_last_item_attr_seconds(__TopXMLNS,
 					 Seconds)}.
 
-encode_multi_last_item({last_item, Jid, Seconds, Error,
-			Data},
+encode_multi_last_item({multi_last_item, Jid, Seconds,
+			Error, Data},
 		       __TopXMLNS) ->
     __NewTopXMLNS =
 	xmpp_codec:choose_top_xmlns(<<"jabber:iq:multi:last">>,

@@ -107,7 +107,6 @@
 
 -type xmpp_host() :: binary() | inet:ip_address() |
 		     {binary() | inet:ip_address(), inet:port_number()}.
-
 -record(avatar_data, {data = <<>> :: binary()}).
 -type avatar_data() :: #avatar_data{}.
 
@@ -1175,6 +1174,15 @@
                        sub_els = [] :: [xmpp_element() | fxml:xmlel()]}).
 -type stanza_error() :: #stanza_error{}.
 
+-record(multi_last_item, {jid :: jid:jid(),
+                          seconds :: 'undefined' | non_neg_integer(),
+                          error = [] :: [#stanza_error{}],
+                          data = <<>> :: binary()}).
+-type multi_last_item() :: #multi_last_item{}.
+
+-record(multi_last_query, {items = [] :: [#multi_last_item{}]}).
+-type multi_last_query() :: #multi_last_query{}.
+
 -record(stream_error, {reason :: atom() | #'see-other-host'{},
                        text = [] :: [#text{}]}).
 -type stream_error() :: #stream_error{}.
@@ -1333,6 +1341,8 @@
                         muc_unique() |
                         muc_unsubscribe() |
                         muc_user() |
+                        multi_last_item() |
+                        multi_last_query() |
                         nick() |
                         offline() |
                         offline_item() |

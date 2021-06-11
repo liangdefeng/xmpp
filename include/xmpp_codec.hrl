@@ -107,7 +107,6 @@
 
 -type xmpp_host() :: binary() | inet:ip_address() |
 		     {binary() | inet:ip_address(), inet:port_number()}.
-
 -record(avatar_data, {data = <<>> :: binary()}).
 -type avatar_data() :: #avatar_data{}.
 
@@ -1091,6 +1090,14 @@
 -record(sasl_mechanisms, {list = [] :: [binary()]}).
 -type sasl_mechanisms() :: #sasl_mechanisms{}.
 
+-record(multi_last_item, {jid :: jid:jid(),
+                          seconds :: 'undefined' | non_neg_integer(),
+                          status = <<>> :: binary()}).
+-type multi_last_item() :: #multi_last_item{}.
+
+-record(multi_last_query, {items = [] :: [#multi_last_item{}]}).
+-type multi_last_query() :: #multi_last_query{}.
+
 -record(offline_item, {node = <<>> :: binary(),
                        action :: 'remove' | 'undefined' | 'view'}).
 -type offline_item() :: #offline_item{}.
@@ -1333,6 +1340,8 @@
                         muc_unique() |
                         muc_unsubscribe() |
                         muc_user() |
+                        multi_last_item() |
+                        multi_last_query() |
                         nick() |
                         offline() |
                         offline_item() |

@@ -558,6 +558,10 @@
 -record(shim, {headers = [] :: [{binary(),binary()}]}).
 -type shim() :: #shim{}.
 
+-record(multi_last_error, {code :: integer(),
+                           reason = <<>> :: binary()}).
+-type multi_last_error() :: #multi_last_error{}.
+
 -record(caps, {node = <<>> :: binary(),
                version = <<>> :: binary(),
                hash = <<>> :: binary(),
@@ -1092,7 +1096,8 @@
 
 -record(multi_last_item, {jid :: jid:jid(),
                           seconds :: 'undefined' | non_neg_integer(),
-                          status = <<>> :: binary()}).
+                          status = <<>> :: binary(),
+                          error = [] :: [#multi_last_error{}]}).
 -type multi_last_item() :: #multi_last_item{}.
 
 -record(multi_last_query, {items = [] :: [#multi_last_item{}]}).
@@ -1340,6 +1345,7 @@
                         muc_unique() |
                         muc_unsubscribe() |
                         muc_user() |
+                        multi_last_error() |
                         multi_last_item() |
                         multi_last_query() |
                         nick() |

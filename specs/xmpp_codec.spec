@@ -5012,34 +5012,23 @@
 	   module = 'xep0417',
 	   result = {x509_register}}).
 
--xml(multi_last_error,
-     #elem{
-        name = <<"error">>,
-        xmlns = <<"jabber:iq:multi:last">>,
-	    module = 'multi_last',
-        result = {multi_last_error, '$code', '$reason'},
-        attrs = [#attr{name = <<"code">>,
-                          required = true,
-                          enc = {enc_int, []},
-                          dec = {dec_int, []}}],
-	    cdata = #cdata{default = <<"">>, label = '$reason'}
-     }).
-
 -xml(multi_last_item,
 	#elem{
 	    name = <<"item">>,
 		xmlns = <<"jabber:iq:multi:last">>,
 		module = multi_last,
-		result = {multi_last_item, '$jid', '$seconds', '$status', '$error'},
+		result = {multi_last_item, '$jid', '$seconds', '$errcode', '$text'},
         attrs = [#attr{name = <<"jid">>,
 					required = true,
                     dec = {jid, decode, []},
                     enc = {jid, encode, []}},
 				#attr{name = <<"seconds">>,
 					dec = {dec_int, [0, infinity]},
-                    enc = {enc_int, []}}],
-        cdata = #cdata{default = <<"">>, label = '$status'},
-        refs = [#ref{name = multi_last_error, label = '$error'}]
+                    enc = {enc_int, []}},
+                #attr{name = <<"errcode">>,
+                          enc = {enc_int, []},
+                          dec = {dec_int, []}}],
+        cdata = #cdata{default = <<"">>, label = '$text'}
 	}).
 
 -xml(multi_last_query,

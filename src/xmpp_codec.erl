@@ -1459,8 +1459,6 @@ get_mod(<<"gone">>,
 get_mod(<<"query">>,
 	<<"http://jabber.org/protocol/muc#owner">>) ->
     xep0045;
-get_mod(<<"error">>, <<"jabber:iq:multi:last">>) ->
-    multi_last;
 get_mod(<<"os">>, <<"jabber:iq:version">>) -> xep0092;
 get_mod(<<"feature">>,
 	<<"http://jabber.org/protocol/disco#info">>) ->
@@ -1644,7 +1642,6 @@ get_mod({nick, _}) -> xep0172;
 get_mod({jingle, _, _, _, _, _, _, _}) -> xep0166;
 get_mod({x509_csr, _, _}) -> xep0417;
 get_mod({x509_challenge_failed}) -> xep0417;
-get_mod({multi_last_error, _, _}) -> multi_last;
 get_mod({stats, _, _}) -> xep0039;
 get_mod({muc, _, _}) -> xep0045;
 get_mod({carbons_enable}) -> xep0280;
